@@ -1,0 +1,6 @@
+build/
+dist/
+*~
+
+# Automake cache files
+xz/autom4te.cache/*

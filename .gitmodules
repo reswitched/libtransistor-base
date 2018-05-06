@@ -1,0 +1,15 @@
+[submodule "newlib"]
+	path = newlib
+	url = https://github.com/reswitched/newlib.git
+[submodule "compiler-rt"]
+	path = compiler-rt
+	url = https://github.com/llvm-mirror/compiler-rt.git
+[submodule "libcxx"]
+	path = libcxx
+	url = https://github.com/llvm-mirror/libcxx.git
+[submodule "libcxxabi"]
+	path = libcxxabi
+	url = https://github.com/llvm-mirror/libcxxabi.git
+[submodule "libunwind"]
+	path = libunwind
+	url = https://github.com/llvm-mirror/libunwind.git
