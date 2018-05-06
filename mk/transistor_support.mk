@@ -9,7 +9,8 @@ DIST_TRANSISTOR_SUPPORT := $(addprefix $(LIBTRANSISTOR_HOME)/include/,$(libtrans
 	$(LIBTRANSISTOR_HOME)/libtransistor.mk \
 	$(LIBTRANSISTOR_HOME)/link.T \
 	$(LIBTRANSISTOR_HOME)/fs.T\
-	$(LIBTRANSISTOR_HOME)/tools/elf2nxo.py
+	$(LIBTRANSISTOR_HOME)/tools/elf2nxo.py \
+	$(LIBTRANSISTOR_HOME)/requirements.txt
 
 $(LIBTRANSISTOR_HOME)/libtransistor.mk: libtransistor.mk
 	install $< $@
@@ -22,6 +23,9 @@ $(LIBTRANSISTOR_HOME)/fs.T: fs.T
 
 $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py: tools/elf2nxo.py
 	install -d $(@D)
+	install $< $@
+
+$(LIBTRANSISTOR_HOME)/requirements.txt: requirements.txt
 	install $< $@
 
 $(LIBTRANSISTOR_HOME)/include/%: $(SOURCE_ROOT)/include/%
