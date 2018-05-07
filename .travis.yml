@@ -60,21 +60,12 @@ before_script:
 script:  make LD=ld.lld$LLVM_POSTFIX
 
 after_success:
-  # Once the build has passed, build the docs
   - cd dist/
   - tar czvf ../libtransistor-base_$TRAVIS_TAG.tar.gz ./
   - zip -r ../libtransistor-base_$TRAVIS_TAG.zip ./
   - cd ../
   
 deploy:
-  - provider: pages
-    skip-cleanup: true
-    github-token: $GITHUB_TOKEN
-    local-dir: docs
-    target-branch: gh-pages
-    on:
-      branch: development
-      condition: $TRAVIS_OS_NAME = linux
   - provider: releases
     api_key: $GITHUB_TOKEN
     file:
