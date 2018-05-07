@@ -10,7 +10,7 @@ repository.
 First, clone the repo with
 
 ```
-git clone --recursive https://github.com/reswitched/libtransistor
+git clone --recursive https://github.com/reswitched/libtransistor-base
 ```
 
 You will need clang and lld >=5.0.0.
