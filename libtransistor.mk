@@ -14,6 +14,10 @@ else
 endif
 
 LLVM_BINDIR := $(shell $(LLVM_CONFIG) --bindir)
+ifeq ($(LLVM_BINDIR),)
+  $(error llvm-config needs to be installed)
+endif
+
 LD := $(LLVM_BINDIR)/ld.lld
 CC := $(LLVM_BINDIR)/clang
 CXX := $(LLVM_BINDIR)/clang++
