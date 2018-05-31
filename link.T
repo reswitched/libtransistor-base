@@ -16,7 +16,7 @@ SECTIONS
   . = 0;
 
   .text : ALIGN(0x1000) {
-    __text_start = .;
+    HIDDEN(__text_start = .);
     KEEP(*(.text.jmp))
 
     . = 0x80;
@@ -41,15 +41,15 @@ SECTIONS
   .rela.dyn : { *(.rela.dyn) }
 
   .eh_frame : {
-    __eh_frame_start = .;
+    HIDDEN(__eh_frame_start = .);
     *(.eh_frame .eh_frame.*)
-    __eh_frame_end = .;
+    HIDDEN(__eh_frame_end = .);
   }
 
   .eh_frame_hdr : {
-    __eh_frame_hdr_start = .;
+    HIDDEN(__eh_frame_hdr_start = .);
     *(.eh_frame_hdr .eh_frame_hdr.*)
-    __eh_frame_hdr_end = .;
+    HIDDEN(__eh_frame_hdr_end = .);
   }
 
   /* Read-write sections */
@@ -63,7 +63,7 @@ SECTIONS
   } :data
 
   .dynamic : {
-    __dynamic_start = .;
+    HIDDEN(__dynamic_start = .);
     *(.dynamic)
   }
 
@@ -72,9 +72,9 @@ SECTIONS
   . = ALIGN(0x1000);
 
   .bss : {
-    __bss_start = .;
+    HIDDEN(__bss_start = .);
     *(.bss .bss.*)
     *(COMMON)
-    __bss_end = .;
+    HIDDEN(__bss_end = .);
   } :bss
 }

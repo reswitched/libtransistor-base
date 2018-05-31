@@ -29,9 +29,26 @@ RUBY := ruby
 SYS_INCLUDES := -isystem $(LIBTRANSISTOR_HOME)/include/
 CPP_INCLUDES := -isystem $(LIBTRANSISTOR_HOME)/include/c++/v1/
 
-LD_FLAGS := -Bsymbolic --shared --no-gc-sections --eh-frame-hdr --no-undefined -T $(LIBTRANSISTOR_HOME)/link.T \
+# linker flags for building main binary
+#   -Bsymbolic: bind symbols locally
+#   --shared: build a shared object
+LD_FLAGS := -Bsymbolic \
+	--shared \
+	--no-gc-sections \
+	--eh-frame-hdr \
+	--no-undefined \
+	-T $(LIBTRANSISTOR_HOME)/link.T \
 	-L $(LIBTRANSISTOR_HOME)/lib/
-LD_SHARED_LIBRARY_FLAGS := -Bsymbolic --shared --no-gc-sections --eh-frame-hdr -T $(LIBTRANSISTOR_HOME)/link.T -L $(LIBTRANSISTOR_HOME)/lib/
+
+# linker flags for building shared libraries
+#   --shared: build a shared object
+#   -Bdynamic: link against shared libraries
+LD_SHARED_LIBRARY_FLAGS := --shared \
+	--no-gc-sections \
+	--eh-frame-hdr \
+	-T $(LIBTRANSISTOR_HOME)/link.T \
+	-L $(LIBTRANSISTOR_HOME)/lib/ \
+	-Bdynamic
 
 CC_FLAGS := -g -fPIC -fexceptions -fuse-ld=lld -fstack-protector-strong -O3 -mtune=cortex-a53 -target aarch64-none-linux-gnu -nostdlib -nostdlibinc $(SYS_INCLUDES) -D__SWITCH__=1 -Wno-unused-command-line-argument
 CXX_FLAGS := $(CC_FLAGS) -std=c++17 -stdlib=libc++ -nodefaultlibs -nostdinc++ $(CPP_INCLUDES)
@@ -60,10 +77,17 @@ LIBTRANSISTOR_NSO_LIB := $(LIBTRANSISTOR_NSO_DEP)
 LIBTRANSISTOR_NRO_DEPS := $(LIBTRANSISTOR_HOME)/lib/libtransistor.nro.a $(LIBTRANSISTOR_COMMON_LIB_DEPS)
 LIBTRANSISTOR_NSO_DEPS := $(LIBTRANSISTOR_HOME)/lib/libtransistor.nso.a $(LIBTRANSISTOR_COMMON_LIB_DEPS)
 
-LIBTRANSISTOR_COMMON_LDFLAGS := -lc -lm -lclang_rt.builtins-aarch64 -lpthread -llzma -lc++ -lc++abi -lunwind
+# these are libraries that libtransistor depends on, and that must be statically linked.
+# any other libraries may be dynamically linked.
+#   -Bstatic: do not link against shared libraries
+#   -Bdynamic: link against shared libraries
+LIBTRANSISTOR_EXECUTABLE_LDFLAGS := -Bstatic \
+	-lc -lm -lclang_rt.builtins-aarch64 -lpthread -llzma -lc++ -lc++abi -lunwind \
+	-Bdynamic
 
-LIBTRANSISTOR_NRO_LDFLAGS := --whole-archive -ltransistor.nro --no-whole-archive $(LIBTRANSISTOR_COMMON_LDFLAGS)
-LIBTRANSISTOR_NSO_LDFLAGS := --whole-archive -ltransistor.nso --no-whole-archive $(LIBTRANSISTOR_COMMON_LDFLAGS)
+LIBTRANSISTOR_NRO_LDFLAGS := --whole-archive -ltransistor.nro --no-whole-archive $(LIBTRANSISTOR_EXECUTABLE_LDFLAGS)
+LIBTRANSISTOR_NSO_LDFLAGS := --whole-archive -ltransistor.nso --no-whole-archive $(LIBTRANSISTOR_EXECUTABLE_LDFLAGS)
+LIBTRANSISTOR_LIB_LDFLAGS := -lc -lclang_rt.builtins-aarch64 -lc++ -lc++abi -lunwind
 
 %.nro: %.nro.so
 	$(PYTHON3) $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py $< $@ nro
