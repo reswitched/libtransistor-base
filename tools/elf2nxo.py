@@ -197,7 +197,7 @@ if __name__ == '__main__':
 		help='Output NRO/NSO file'
 	)
 	parser.add_argument(
-		'-f', '--format',
+		'format',
 		type=str,
 		default='nro',
 		choices=['nro', 'nso'],
@@ -208,30 +208,30 @@ if __name__ == '__main__':
 		'-n', '--name',
 		type=str,
 		default='',
-		help='Application name (requires `--format nro`)'
+		help='Application name (requires `nro` format)'
 	)
 	parser.add_argument(
 		'-d', '--developer',
 		type=str,
 		default='',
-		help='Application developer (requires `--format nro`)'
+		help='Application developer (requires `nro` format)'
 	)
 	parser.add_argument(
 		'-v', '--version',
 		type=str,
 		default='',
-		help='Application version (requires `--format nro`)'
+		help='Application version (requires `nro` format)'
 	)
 	parser.add_argument(
 		'-i', '--icon',
 		type=str,
 		required=False,
-		help='Path to application icon (256x256 JPEG; requires `--format nro`)'
+		help='Path to application icon (256x256 JPEG; requires `nro` format)'
 	)
 
 	args = parser.parse_args()
 
 	if args.format != 'nro' and (args.name or args.developer or args.version or args.icon):
-		parser.error('--name, --developer, --version, and --icon require --format nro')
+		parser.error('--name, --developer, --version, and --icon require `nro` format')
 
 	main(args)

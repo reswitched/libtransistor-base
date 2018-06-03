@@ -110,7 +110,7 @@ LIBTRANSISTOR_NRO_ASET_FLAGS += --version "$(NRO_VERSION)"
 endif
 
 %.nro: %.nro.so
-	$(PYTHON3) $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py --format nro $(LIBTRANSISTOR_NRO_ASET_FLAGS) $< $@
+	$(PYTHON3) $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py $(LIBTRANSISTOR_NRO_ASET_FLAGS) $< $@ nro
 
 %.nso: %.nso.so
-	$(PYTHON3) $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py --format nso $< $@ 
+	$(PYTHON3) $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py $< $@ nso
