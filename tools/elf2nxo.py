@@ -135,7 +135,7 @@ def main(args):
 				fp.write(rodata)
 				fp.write(data)
 
-				if args.name or args.developer or args.icon:
+				if args.name or args.developer or args.version or args.icon:
 					write_aset(fp, args)
 		else:
 			with open(args.outfile, 'wb') as fp:
