@@ -93,8 +93,20 @@ LIBTRANSISTOR_NRO_LDFLAGS := --whole-archive -ltransistor.nro --no-whole-archive
 LIBTRANSISTOR_NSO_LDFLAGS := --whole-archive -ltransistor.nso --no-whole-archive $(LIBTRANSISTOR_EXECUTABLE_LDFLAGS)
 LIBTRANSISTOR_LIB_LDFLAGS := -lc -lclang_rt.builtins-aarch64 -lc++ -lc++abi -lunwind
 
+ifneq ($(NRO_ICON),)
+LIBTRANSISTOR_NRO_ASET_FLAGS += --icon "$(NRO_ICON)"
+endif
+
+ifneq ($(NRO_NAME),)
+LIBTRANSISTOR_NRO_ASET_FLAGS += --name "$(NRO_NAME)"
+endif
+
+ifneq ($(NRO_DEVELOPER),)
+LIBTRANSISTOR_NRO_ASET_FLAGS += --developer "$(NRO_DEVELOPER)"
+endif
+
 %.nro: %.nro.so
-	$(PYTHON3) $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py $< $@ nro
+	$(PYTHON3) $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py --format nro $(LIBTRANSISTOR_NRO_ASET_FLAGS) $< $@
 
 %.nso: %.nso.so
-	$(PYTHON3) $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py $< $@ nso
+	$(PYTHON3) $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py --format nso $< $@ 
