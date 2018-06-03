@@ -1,5 +1,5 @@
 # libtransistor-base
-[![Build Status](https://travis-ci.org/reswitched/libtransistor-base.svg?branch=master)](https://travis-ci.org/reswitched/libtransistor-base) [![Chat on Discord](https://img.shields.io/badge/chat-Discord-brightgreen.svg)](https://discordapp.com/invite/ZdqEhed)
+[![Build Status](https://travis-ci.com/reswitched/libtransistor-base.svg?branch=master)](https://travis-ci.org/reswitched/libtransistor-base) [![Chat on Discord](https://img.shields.io/badge/chat-Discord-brightgreen.svg)](https://discordapp.com/invite/ZdqEhed)
 
 This is a collection of base libraries required to build libtransistor. In general,
 the version numbers in this repository should match those in the main libtransistor
