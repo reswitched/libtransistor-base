@@ -105,6 +105,10 @@ ifneq ($(NRO_DEVELOPER),)
 LIBTRANSISTOR_NRO_ASET_FLAGS += --developer "$(NRO_DEVELOPER)"
 endif
 
+ifneq ($(NRO_VERSION),)
+LIBTRANSISTOR_NRO_ASET_FLAGS += --version "$(NRO_VERSION)"
+endif
+
 %.nro: %.nro.so
 	$(PYTHON3) $(LIBTRANSISTOR_HOME)/tools/elf2nxo.py --format nro $(LIBTRANSISTOR_NRO_ASET_FLAGS) $< $@
 

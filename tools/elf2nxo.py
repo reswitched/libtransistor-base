@@ -37,9 +37,10 @@ def write_aset(fp, args):
 			icon_size = len(icon_data)
 		
 	# Create the control.nacp structure
-	if args.name or args.developer:
+	if args.name or args.developer or args.version:
 		name_encoded = args.name.encode()[:0x200]
 		developer_encoded = args.developer.encode()[:0x100]
+		version_encoded = args.version.encode()[:0x10]
 
 		for lang_entry_index in range(12):
 			name_start = lang_entry_index * 0x300
@@ -50,6 +51,10 @@ def write_aset(fp, args):
 
 			nacp_data[name_start:name_end] = name_encoded
 			nacp_data[developer_start:developer_end] = developer_encoded
+
+		version_start = 0x3060
+		version_end = version_start + len(version_encoded)
+		nacp_data[version_start:version_end] = version_encoded
 
 	fp.write(struct.pack('<QQ', aset_size, icon_size))
 	fp.write(struct.pack('<QQ', aset_size + icon_size, nacp_size))
@@ -212,6 +217,12 @@ if __name__ == '__main__':
 		help='Application developer (requires `--format nro`)'
 	)
 	parser.add_argument(
+		'-v', '--version',
+		type=str,
+		default='',
+		help='Application version (requires `--format nro`)'
+	)
+	parser.add_argument(
 		'-i', '--icon',
 		type=str,
 		required=False,
@@ -220,7 +231,7 @@ if __name__ == '__main__':
 
 	args = parser.parse_args()
 
-	if args.format != 'nro' and (args.name or args.developer or args.icon):
-		parser.error('--name, --developer, and --icon require --format nro')
+	if args.format != 'nro' and (args.name or args.developer or args.version or args.icon):
+		parser.error('--name, --developer, --version, and --icon require --format nro')
 
 	main(args)
