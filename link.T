@@ -75,6 +75,7 @@ SECTIONS
     HIDDEN(__bss_start = .);
     *(.bss .bss.*)
     *(COMMON)
+    . = ALIGN(8);
     HIDDEN(__bss_end = .);
   } :bss
 }
