@@ -33,12 +33,14 @@ RUBY := ruby
 SYS_INCLUDES := -isystem $(LIBTRANSISTOR_HOME)/include/
 CPP_INCLUDES := -isystem $(LIBTRANSISTOR_HOME)/include/c++/v1/
 
+PKG_CONFIG_SYSROOT_DIR=$(LIBTRANSISTOR_HOME)
+
 # linker flags for building main binary
 #   -Bsymbolic: bind symbols locally
 #   --shared: build a shared object
 LD_FLAGS := -Bsymbolic \
 	--shared \
-	--no-gc-sections \
+	--gc-sections \
 	--eh-frame-hdr \
 	--no-undefined \
 	-T $(LIBTRANSISTOR_HOME)/link.T \
@@ -48,7 +50,7 @@ LD_FLAGS := -Bsymbolic \
 #   --shared: build a shared object
 #   -Bdynamic: link against shared libraries
 LD_SHARED_LIBRARY_FLAGS := --shared \
-	--no-gc-sections \
+	--gc-sections \
 	--eh-frame-hdr \
 	-T $(LIBTRANSISTOR_HOME)/link.T \
 	-L $(LIBTRANSISTOR_HOME)/lib/ \
@@ -89,8 +91,8 @@ LIBTRANSISTOR_EXECUTABLE_LDFLAGS := -Bstatic \
 	-lc -lm -lclang_rt.builtins-aarch64 -lpthread -llzma -lc++ -lc++abi -lunwind \
 	-Bdynamic
 
-LIBTRANSISTOR_NRO_LDFLAGS := --whole-archive -ltransistor.nro --no-whole-archive $(LIBTRANSISTOR_EXECUTABLE_LDFLAGS)
-LIBTRANSISTOR_NSO_LDFLAGS := --whole-archive -ltransistor.nso --no-whole-archive $(LIBTRANSISTOR_EXECUTABLE_LDFLAGS)
+LIBTRANSISTOR_NRO_LDFLAGS := -ltransistor.nro $(LIBTRANSISTOR_EXECUTABLE_LDFLAGS)
+LIBTRANSISTOR_NSO_LDFLAGS := -ltransistor.nso $(LIBTRANSISTOR_EXECUTABLE_LDFLAGS)
 LIBTRANSISTOR_LIB_LDFLAGS := -lc -lclang_rt.builtins-aarch64 -lc++ -lc++abi -lunwind
 
 ifneq ($(NRO_ICON),)
