@@ -1,5 +1,8 @@
 # LIBLZMA
 
+$(SOURCE_ROOT)/xz/configure:
+	cd $(SOURCE_ROOT)/xz && ./autogen.sh
+
 $(BUILD_DIR)/xz/Makefile: $(SOURCE_ROOT)/xz/configure
 	mkdir -p $(@D)
 	cd $(SOURCE_ROOT)/xz && touch configure.ac aclocal.m4 Makefile.am configure Makefile.in # these are up to date

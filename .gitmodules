@@ -13,3 +13,6 @@
 [submodule "libunwind"]
 	path = libunwind
 	url = https://github.com/llvm-mirror/libunwind.git
+[submodule "openlibm"]
+	path = openlibm
+	url = https://github.com/JuliaMath/openlibm.git
