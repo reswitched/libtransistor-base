@@ -19,7 +19,7 @@ SECTIONS
     HIDDEN(__text_start = .);
     KEEP(*(.text.jmp))
 
-    . = 0x80;
+/*    . = 0x80;*/
 
     *(.text .text.*)
     *(.plt .plt.*)
